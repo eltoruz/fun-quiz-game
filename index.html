@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Kuis Pintar - Pendekatan Pembelajaran IPS 🌟</title>
+    <meta name="description" content="Game kuis interaktif tentang Pendekatan, Model, dan Strategi Pembelajaran IPS!">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="confetti-container"></div>
+
+    <!-- LANDING SCREEN -->
+    <div id="landing-screen" class="screen active">
+        <div class="stars-bg"></div>
+        <div class="landing-content">
+            <div class="mascot bounce-in">🦉</div>
+            <h1 class="game-title rainbow-text">Kuis Pintar by YUNI </h1>
+            <p class="subtitle">Pendekatan, Model & Strategi Pembelajaran 📚</p>
+            <div class="name-input-group">
+                <label for="player-name">Siapa Namamu? 😊</label>
+                <input type="text" id="player-name" placeholder="Ketik namamu di sini..." maxlength="20"
+                    autocomplete="off">
+            </div>
+            <button id="btn-start" class="btn btn-primary btn-xl pulse" onclick="startGame()">
+                🚀 Mulai Bermain!
+            </button>
+            <button class="btn btn-secondary" onclick="showScoreboard()">
+                🏆 Papan Skor
+            </button>
+        </div>
+        <div class="floating-emojis">
+            <span class="float-emoji" style="--delay:0s;--x:10%">⭐</span>
+            <span class="float-emoji" style="--delay:1s;--x:25%">🎈</span>
+            <span class="float-emoji" style="--delay:2s;--x:40%">🌈</span>
+            <span class="float-emoji" style="--delay:0.5s;--x:60%">🎯</span>
+            <span class="float-emoji" style="--delay:1.5s;--x:75%">📚</span>
+            <span class="float-emoji" style="--delay:2.5s;--x:90%">🧠</span>
+        </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <div class="quiz-info">
+                <span class="category-badge">📖 Pembelajaran IPS</span>
+                <span id="quiz-question-num" class="question-num">Soal 1/10</span>
+            </div>
+            <div class="quiz-stats">
+                <span class="stat">⭐ <span id="quiz-score">0</span></span>
+                <span class="stat">❤️ <span id="quiz-lives">3</span></span>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="timer-bar-container" class="timer-bar-container">
+            <div id="timer-bar" class="timer-bar"></div>
+        </div>
+        <div id="quiz-card" class="quiz-card slide-in">
+            <div id="question-text" class="question-text">Loading...</div>
+            <div id="answers-container" class="answers-container"></div>
+        </div>
+        <div id="feedback-overlay" class="feedback-overlay hidden">
+            <div id="feedback-content" class="feedback-content"></div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen" class="screen">
+        <div class="result-content">
+            <div id="result-emoji" class="result-emoji">🏆</div>
+            <h2 id="result-title" class="result-title">Hebat Sekali!</h2>
+            <div id="result-stars" class="result-stars"></div>
+            <div class="result-stats">
+                <div class="stat-box">
+                    <span class="stat-value" id="result-correct">0</span>
+                    <span class="stat-label">Benar ✅</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="result-wrong">0</span>
+                    <span class="stat-label">Salah ❌</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="result-score-final">0</span>
+                    <span class="stat-label">Skor ⭐</span>
+                </div>
+            </div>
+            <div class="result-actions">
+                <button class="btn btn-primary" onclick="startGame()">🎮 Main Lagi</button>
+                <button class="btn btn-secondary" onclick="showScoreboard()">🏆 Papan Skor</button>
+                <button class="btn btn-secondary" onclick="goBack('landing')">🏠 Menu Utama</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCOREBOARD SCREEN -->
+    <div id="scoreboard-screen" class="screen">
+        <div class="screen-header">
+            <button class="btn btn-back" onclick="goBack('landing')">← Kembali</button>
+            <h2>🏆 Papan Skor</h2>
+        </div>
+        <div id="scoreboard-list" class="scoreboard-list"></div>
+        <button class="btn btn-danger btn-sm" onclick="clearScoreboard()" style="margin-top:16px">🗑️ Hapus Semua
+            Skor</button>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
