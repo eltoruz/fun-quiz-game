@@ -159,7 +159,7 @@ function endQuiz() {
     if (pct >= 0.5) launchConfetti();
 
     const name = document.getElementById('player-name').value.trim();
-    saveScore({ name, score, correct: correctCount, total: currentQuestions.length, stars, date: new Date().toISOString() });
+    saveScore({ name, score, category: 'Pembelajaran IPS', correct: correctCount, total: currentQuestions.length, stars, date: new Date().toISOString() });
 }
 
 // ===== SCOREBOARD (API) =====

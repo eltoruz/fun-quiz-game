@@ -29,11 +29,11 @@ app.get('/api/scores', (req, res) => {
 app.post('/api/scores', (req, res) => {
     try {
         const { name, score, category, correct, total, stars, date } = req.body;
-        if (!name || score === undefined || !category) {
+        if (!name || score === undefined) {
             return res.status(400).json({ error: 'Missing fields' });
         }
         const scores = JSON.parse(fs.readFileSync(SCORES_FILE, 'utf8'));
-        scores.push({ name, score, category, correct, total, stars, date });
+        scores.push({ name, score, category: category || 'umum', correct, total, stars, date });
         fs.writeFileSync(SCORES_FILE, JSON.stringify(scores, null, 2));
         res.json({ success: true });
     } catch (e) {
