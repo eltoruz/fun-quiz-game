@@ -16,23 +16,6 @@
 
     <!-- LANDING SCREEN -->
     <div id="landing-screen" class="screen active">
-        <div class="stars-bg"></div>
-        <div class="landing-content">
-            <div class="mascot bounce-in">🦉</div>
-            <h1 class="game-title rainbow-text">Kuis Pintar by YUNI Cantik </h1>
-            <p class="subtitle">Pendekatan, Model & Strategi Pembelajaran 📚</p>
-            <div class="name-input-group">
-                <label for="player-name">Siapa Namamu? 😊</label>
-                <input type="text" id="player-name" placeholder="Ketik namamu di sini..." maxlength="20"
-                    autocomplete="off">
-            </div>
-            <button id="btn-start" class="btn btn-primary btn-xl pulse" onclick="startGame()">
-                🚀 Mulai Bermain!
-            </button>
-            <button class="btn btn-secondary" onclick="showScoreboard()">
-                🏆 Papan Skor
-            </button>
-        </div>
         <div class="floating-emojis">
             <span class="float-emoji" style="--delay:0s;--x:10%">⭐</span>
             <span class="float-emoji" style="--delay:1s;--x:25%">🎈</span>
@@ -41,6 +24,134 @@
             <span class="float-emoji" style="--delay:1.5s;--x:75%">📚</span>
             <span class="float-emoji" style="--delay:2.5s;--x:90%">🧠</span>
         </div>
+        <div class="landing-content">
+            <div class="mascot bounce-in">🦉</div>
+            <h1 class="game-title rainbow-text">Kuis Pintar</h1>
+            <p class="subtitle">Pendekatan, Model & Strategi Pembelajaran 📚</p>
+            <div class="role-buttons">
+                <button class="btn btn-role btn-student" onclick="showScreen('join-screen')">
+                    <span class="role-icon">🎓</span>
+                    <span class="role-label">Saya Siswa</span>
+                </button>
+                <button class="btn btn-role btn-admin" onclick="showScreen('admin-pin-screen')">
+                    <span class="role-icon">👩‍🏫</span>
+                    <span class="role-label">Saya Guru</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PIN SCREEN -->
+    <div id="admin-pin-screen" class="screen">
+        <div class="card-container">
+            <button class="btn btn-back" onclick="goBack('landing')">← Kembali</button>
+            <div class="auth-card" style="margin-top:16px;">
+                <div class="card-icon-big">🔐</div>
+                <h2>Masuk Sebagai Guru</h2>
+                <p class="card-desc">Masukkan PIN admin untuk membuat room kuis</p>
+                <input type="password" id="admin-pin" placeholder="Masukkan PIN..." maxlength="20" autocomplete="off">
+                <button class="btn btn-primary btn-block" onclick="createRoom()">🏠 Buat Room Kuis</button>
+                <p id="admin-pin-error" class="error-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOBBY SCREEN -->
+    <div id="admin-lobby-screen" class="screen">
+        <div class="lobby-container">
+            <div class="room-code-display">
+                <p class="room-label">Kode Room</p>
+                <h1 id="room-code-text" class="room-code">------</h1>
+                <p class="room-hint">Berikan kode ini ke siswa untuk bergabung</p>
+            </div>
+            <div class="players-section">
+                <h3>🎓 Peserta (<span id="player-count">0</span>)</h3>
+                <div id="player-list" class="player-list">
+                    <div class="no-players">Menunggu siswa bergabung...</div>
+                </div>
+            </div>
+            <button id="btn-start-game" class="btn btn-primary btn-xl pulse" onclick="adminStartGame()" disabled>
+                🚀 Mulai Kuis!
+            </button>
+        </div>
+    </div>
+
+    <!-- ADMIN LIVE SCORE SCREEN -->
+    <div id="admin-live-screen" class="screen">
+        <div class="live-container">
+            <div class="live-header">
+                <h2>📊 Live Scoreboard</h2>
+                <span id="live-status" class="live-badge">🔴 LIVE</span>
+            </div>
+            <div id="live-scoreboard" class="live-scoreboard"></div>
+            <div id="all-finished-msg" class="all-finished-msg" style="display:none;">
+                <div class="finished-emoji">🎉</div>
+                <h3>Semua Siswa Selesai!</h3>
+            </div>
+            <div id="podium-section" class="podium-section" style="display:none;">
+                <h2 class="podium-title">🏆 Podium Juara</h2>
+                <div class="podium-stage">
+                    <div class="podium-slot podium-2" id="podium-2">
+                        <div class="podium-avatar">🥈</div>
+                        <div class="podium-name">-</div>
+                        <div class="podium-pts">0</div>
+                        <div class="podium-bar bar-2">2</div>
+                    </div>
+                    <div class="podium-slot podium-1" id="podium-1">
+                        <div class="podium-crown">👑</div>
+                        <div class="podium-avatar">🥇</div>
+                        <div class="podium-name">-</div>
+                        <div class="podium-pts">0</div>
+                        <div class="podium-bar bar-1">1</div>
+                    </div>
+                    <div class="podium-slot podium-3" id="podium-3">
+                        <div class="podium-avatar">🥉</div>
+                        <div class="podium-name">-</div>
+                        <div class="podium-pts">0</div>
+                        <div class="podium-bar bar-3">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOIN ROOM SCREEN (Student) -->
+    <div id="join-screen" class="screen">
+        <div class="card-container">
+            <button class="btn btn-back" onclick="goBack('landing')">← Kembali</button>
+            <div class="auth-card" style="margin-top:16px;">
+                <div class="card-icon-big">🎮</div>
+                <h2>Gabung Kuis</h2>
+                <p class="card-desc">Masukkan kode room dari guru dan namamu</p>
+                <input type="text" id="room-code-input" placeholder="Kode Room (6 digit)" maxlength="6"
+                    autocomplete="off" inputmode="numeric">
+                <input type="text" id="player-name" placeholder="Nama kamu..." maxlength="20" autocomplete="off">
+                <button class="btn btn-primary btn-block" onclick="joinRoom()">🚀 Gabung!</button>
+                <p id="join-error" class="error-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WAITING ROOM SCREEN (Student) -->
+    <div id="waiting-screen" class="screen">
+        <div class="waiting-content">
+            <div class="waiting-animation">
+                <div class="waiting-dots">
+                    <span>⏳</span>
+                </div>
+            </div>
+            <h2 class="waiting-title">Menunggu Guru Memulai Kuis...</h2>
+            <p class="waiting-name">Kamu sudah tergabung sebagai <strong id="waiting-player-name">-</strong></p>
+            <p class="waiting-room">Room: <strong id="waiting-room-code">-</strong></p>
+            <div class="waiting-tip">
+                <p>💡 Siapkan dirimu! Kuis akan segera dimulai!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- COUNTDOWN SCREEN -->
+    <div id="countdown-overlay" class="countdown-overlay" style="display:none;">
+        <div id="countdown-display" class="countdown-number">3</div>
     </div>
 
     <!-- QUIZ SCREEN -->
@@ -51,6 +162,7 @@
                 <span id="quiz-question-num" class="question-num">Soal 1/10</span>
             </div>
             <div class="quiz-stats">
+                <span id="streak-badge" class="streak-badge">🔥 <span id="streak-count">0</span></span>
                 <span class="stat">⭐ <span id="quiz-score">0</span></span>
                 <span class="stat">❤️ <span id="quiz-lives">3</span></span>
             </div>
@@ -70,12 +182,24 @@
         </div>
     </div>
 
+    <!-- MINI LEADERBOARD OVERLAY -->
+    <div id="mini-leaderboard-overlay" class="mini-leaderboard-overlay hidden">
+        <div class="mini-leaderboard">
+            <div class="mini-lb-title">🏆 Peringkat Sementara</div>
+            <div id="mini-lb-list" class="mini-lb-list"></div>
+        </div>
+    </div>
+
     <!-- RESULT SCREEN -->
     <div id="result-screen" class="screen">
         <div class="result-content">
             <div id="result-emoji" class="result-emoji">🏆</div>
             <h2 id="result-title" class="result-title">Hebat Sekali!</h2>
             <div id="result-stars" class="result-stars"></div>
+            <div id="result-ranking" class="result-ranking" style="display:none;">
+                <div class="result-ranking-title">Peringkat Kamu</div>
+                <div id="result-rank-num" class="result-rank-num">#1</div>
+            </div>
             <div class="result-stats">
                 <div class="stat-box">
                     <span class="stat-value" id="result-correct">0</span>
@@ -91,25 +215,42 @@
                 </div>
             </div>
             <div class="result-actions">
-                <button class="btn btn-primary" onclick="startGame()">🎮 Main Lagi</button>
-                <button class="btn btn-secondary" onclick="showScoreboard()">🏆 Papan Skor</button>
                 <button class="btn btn-secondary" onclick="goBack('landing')">🏠 Menu Utama</button>
             </div>
         </div>
     </div>
 
-    <!-- SCOREBOARD SCREEN -->
-    <div id="scoreboard-screen" class="screen">
-        <div class="screen-header">
-            <button class="btn btn-back" onclick="goBack('landing')">← Kembali</button>
-            <h2>🏆 Papan Skor</h2>
+    <!-- PODIUM SCREEN (Student sees this after all finish) -->
+    <div id="podium-screen" class="screen">
+        <div class="podium-container">
+            <h2 class="podium-title">🏆 Podium Juara 🏆</h2>
+            <div class="podium-stage">
+                <div class="podium-slot podium-2" id="student-podium-2">
+                    <div class="podium-avatar">🥈</div>
+                    <div class="podium-name">-</div>
+                    <div class="podium-pts">0</div>
+                    <div class="podium-bar bar-2">2</div>
+                </div>
+                <div class="podium-slot podium-1" id="student-podium-1">
+                    <div class="podium-crown">👑</div>
+                    <div class="podium-avatar">🥇</div>
+                    <div class="podium-name">-</div>
+                    <div class="podium-pts">0</div>
+                    <div class="podium-bar bar-1">1</div>
+                </div>
+                <div class="podium-slot podium-3" id="student-podium-3">
+                    <div class="podium-avatar">🥉</div>
+                    <div class="podium-name">-</div>
+                    <div class="podium-pts">0</div>
+                    <div class="podium-bar bar-3">3</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="goBack('landing')" style="margin-top:32px;">🏠 Menu
+                Utama</button>
         </div>
-        <div id="scoreboard-list" class="scoreboard-list"></div>
-        <button id="btn-clear-scores" class="btn btn-danger btn-sm" onclick="clearScoreboard()"
-            style="margin-top:16px;">🗑️ Hapus Semua
-            Skor</button>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script src="questions.js"></script>
     <script src="app.js"></script>
 </body>
