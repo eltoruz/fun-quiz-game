@@ -185,6 +185,14 @@ async function getScores() {
 
 async function showScoreboard() {
     showScreen('scoreboard-screen');
+    // Only show delete button for username "yuni"
+    const playerName = (document.getElementById('player-name').value.trim()).toLowerCase();
+    const deleteBtn = document.getElementById('btn-clear-scores');
+    if (playerName === 'yuni') {
+        deleteBtn.style.display = 'inline-block';
+    } else {
+        deleteBtn.style.display = 'none';
+    }
     await renderScoreboard();
 }
 
@@ -212,6 +220,11 @@ async function renderScoreboard() {
 }
 
 async function clearScoreboard() {
+    const playerName = (document.getElementById('player-name').value.trim()).toLowerCase();
+    if (playerName !== 'yuni') {
+        alert('Hanya admin (yuni) yang bisa menghapus skor! 🔒');
+        return;
+    }
     if (!confirm('Hapus semua skor? 🤔')) return;
     try { await fetch(API_URL + '/api/scores', { method: 'DELETE' }); } catch (e) { localStorage.removeItem('quizScores'); }
     renderScoreboard();
