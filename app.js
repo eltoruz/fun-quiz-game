@@ -97,6 +97,7 @@ function selectAnswer(index) {
     btns.forEach(b => b.classList.add('disabled'));
 
     const isCorrect = index === q.correct;
+    const isTimeout = index === -1;
     if (isCorrect) {
         btns[index].classList.add('correct');
         const bonus = Math.ceil(timeLeft / 10);
@@ -110,27 +111,40 @@ function selectAnswer(index) {
         lives--;
         wrongCount++;
         document.getElementById('quiz-lives').textContent = lives;
-        showFeedback(false, q.a[q.correct]);
+        if (isTimeout) {
+            showFeedback(false, null, true);
+        } else {
+            showFeedback(false, q.a[q.correct]);
+        }
     }
     currentIndex++;
     setTimeout(loadQuestion, 1800);
 }
 
-function showFeedback(correct, correctAns) {
+function showFeedback(correct, correctAns, isTimeout) {
     const overlay = document.getElementById('feedback-overlay');
     const content = document.getElementById('feedback-content');
-    const messages = correct
-        ? [
+    let messages;
+    if (correct) {
+        messages = [
             { emoji: '🎉', text: 'Hebat!', sub: 'Jawabanmu benar!' },
             { emoji: '⭐', text: 'Keren!', sub: 'Lanjutkan!' },
             { emoji: '🚀', text: 'Mantap!', sub: 'Kamu pintar!' },
             { emoji: '💪', text: 'Wow!', sub: 'Terus semangat!' },
-        ]
-        : [
+        ];
+    } else if (isTimeout) {
+        messages = [
+            { emoji: '⏰', text: 'Waktu Habis!', sub: 'Yuk lebih cepat lagi!' },
+            { emoji: '⌛', text: 'Waktu Habis!', sub: 'Ayo semangat!' },
+            { emoji: '🕐', text: 'Terlalu Lama!', sub: 'Coba lebih cepat ya!' },
+        ];
+    } else {
+        messages = [
             { emoji: '😅', text: 'Oops!', sub: `Jawaban benar: ${correctAns}` },
             { emoji: '💪', text: 'Semangat!', sub: `Jawaban benar: ${correctAns}` },
             { emoji: '🤔', text: 'Hampir!', sub: `Jawaban benar: ${correctAns}` },
         ];
+    }
     const msg = messages[Math.floor(Math.random() * messages.length)];
     content.innerHTML = `
         <div class="emoji">${msg.emoji}</div>
